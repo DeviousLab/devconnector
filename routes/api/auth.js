@@ -20,13 +20,8 @@ router.get('/', auth, async (req, res) => {
 
 router.post(
     '/',
-    [
         check('email', 'Please include a valid email').isEmail(),
-        check(
-            'password',
-            'Password is required'
-        ).exists(),
-    ],
+        check('password', 'Password is required').exists(),
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -35,7 +30,7 @@ router.post(
         const {  email, password } = req.body;
         try {
             let user = await User.findOne({ email });
-            if (user) {
+            if (!user) {
                 return res.status(400).json({ msg: 'Email or password is incorrect' });
             }
             const isMatch = await bcrypt.compare(password, user.password);
@@ -60,7 +55,6 @@ router.post(
             console.error(error.message);
             res.status(500).send('Server Error');
         }
-        res.send('User registered');
     }
 );
 
