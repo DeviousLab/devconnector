@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-const Alert = ({ alerts }) => {
+const Alert = ({ alerts }) => (
   <div className="alert-wrapper">
     {alerts.map((alert) => (
       <div key={alert.id} className={`alert alert-${alert.alertType}`}>
@@ -10,7 +10,7 @@ const Alert = ({ alerts }) => {
       </div>
     ))}
   </div>
-}
+);
 
 Alert.propTypes = {
   alerts: PropTypes.array.isRequired
