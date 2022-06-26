@@ -2,7 +2,7 @@ const { SET_ALERT, REMOVE_ALERT } = require('../actions/types');
 
 const initialState = [];
 
-export default function alert(state = initialState, action) {
+export default function alertReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
