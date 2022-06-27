@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { createProfile } from '../../actions/profile'
+import { createProfile, getCurrentProfile } from '../../actions/profile'
 
 const initialState = {
   company: '',
@@ -20,9 +20,26 @@ const initialState = {
   instagram: ''
 };
 
-const CreateProfile = ({ createProfile, history }) => {
+const EditProfile = ({ profile: { profile, loading }, createProfile, getCurrentProfile }) => {
   const [formData, setFormData] = useState(initialState);
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
+
+  useEffect(() => {
+    if (!profile) getCurrentProfile();
+
+    if (!loading && profile) {
+      const profileData = { ...initialState };
+      for (const key in profile) {
+        if (key in profileData) profileData[key] = profile[key];
+      }
+      for (const key in profile.social) {
+        if (key in profileData) profileData[key] = profile.social[key];
+      }
+      if (Array.isArray(profileData.skills))
+        profileData.skills = profileData.skills.join(', ');
+      setFormData(profileData);
+    }
+  }, [loading, getCurrentProfile, profile]);
 
   const {
     company,
@@ -46,12 +63,12 @@ const CreateProfile = ({ createProfile, history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProfile(formData, navigate);
+    createProfile(formData, navigate, true);
   }
 
   return (
     <section className="container">
-      <h1 className="large text-primary">Create Your Profile</h1>
+      <h1 className="large text-primary">Edit Your Profile</h1>
       <p className="lead">
         <i className="fas fa-user" />
       </p>
@@ -150,7 +167,7 @@ const CreateProfile = ({ createProfile, history }) => {
             type="button"
             className="btn btn-light"
           >
-            Add Social Network Links
+            Edit Social Network Links
           </button>
           <span>Optional</span>
         </div>
@@ -223,8 +240,14 @@ const CreateProfile = ({ createProfile, history }) => {
   );
 }
 
-CreateProfile.propTypes = {
-  createProfile: PropTypes.func.isRequired
+EditProfile.propTypes = {
+  createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
 }
 
-export default connect(null, { createProfile })(CreateProfile)
+const mapStateToProps = state => ({
+  profile: state.profile
+})
+
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(EditProfile)

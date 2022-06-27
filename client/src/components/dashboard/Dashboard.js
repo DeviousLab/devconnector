@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 import { getCurrentProfile } from '../../actions/profile'
 import Spinner from '../layouts/Spinner'
+import { DashboardActions } from './DashboardActions'
 
 const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, loading } }) => {
   useEffect(() => {
@@ -17,6 +18,7 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile, load
     </p>
     {profile !== null ? (
       <>
+        <DashboardActions />
         <div className="my-2">
           <button className="btn btn-danger" >
             <i className="fas fa-user-minus" /> Delete My Account
