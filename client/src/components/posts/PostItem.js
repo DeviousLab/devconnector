@@ -6,8 +6,8 @@ import { connect } from 'react-redux'
 
 import { addLike, removeLike, deletePost } from '../../actions/post'
 
-const PostItem = ({ addLike, removeLike, deletePost, auth, post: { _id, text, name, avatar, user, likes, comments, date } }) => {
-  return ((
+const PostItem = ({ addLike, removeLike, deletePost, auth, post: { _id, text, name, avatar, user, likes, comments, date }, showActions }) => {
+  return (
     <div className="post bg-white p-1 my-1">
       <div>
         <Link to={`/profile/${user}`}>
@@ -19,7 +19,7 @@ const PostItem = ({ addLike, removeLike, deletePost, auth, post: { _id, text, na
         <p className="my-1">{text}</p>
         <p className="post-date">Posted on <Moment format='YYYY/MM/DD'>{date}</Moment></p>
 
-        {(
+        {showActions && (
           <>
             <button
               type="button"
@@ -56,7 +56,10 @@ const PostItem = ({ addLike, removeLike, deletePost, auth, post: { _id, text, na
       </div>
     </div>
   )
-)
+}
+
+PostItem.defaultProps = {
+  showActions: true
 }
 
 PostItem.propTypes = {
