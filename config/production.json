@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://deviouslab:XRESoyqLGeF6kcgB@cluster0.9gl5w.mongodb.net/?retryWrites=true&w=majority",
+  "jwtSecret": "thesecret",
+  "githubClientId": "7b4688981a298e5aa836",
+  "githubClientSecret": "2fe531d61b787422f80691ef5ff09cf289c23d74"
+}
