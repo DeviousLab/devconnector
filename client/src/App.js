@@ -15,6 +15,7 @@ import EditProfile from './components/profile-forms/EditProfile';
 import AddExperience from './components/profile-forms/AddExperience';
 import AddEducation from './components/profile-forms/AddEducation';
 import Profiles from './components/profiles/Profiles';
+import Profile from './components/profile/Profile';
 
 import store from './store';
 import { loadUser } from './actions/auth';
@@ -58,6 +59,7 @@ function App() {
             element={<PrivateRoute component={AddEducation} />}
           />
           <Route path="/profiles" element={<Profiles />} />
+          <Route path="/profile/:id" element={<Profile />} />
         </Routes>
       </Router>
     </Provider>
