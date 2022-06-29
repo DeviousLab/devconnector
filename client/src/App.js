@@ -18,6 +18,8 @@ import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
+import NotFound from './components/layouts/NotFound';
+import { LOGOUT } from './actions/types';
 
 import store from './store';
 import { loadUser } from './actions/auth';
@@ -29,8 +31,15 @@ if (localStorage.token) {
 
 function App() {
   useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
     store.dispatch(loadUser());
-  }, []);
+    window.addEventListener('storage', () => {
+      if (!localStorage.token) store.dispatch({ type: LOGOUT });
+    });
+  }, [])
+
   return (
     <Provider store={store}>
       <Router>
@@ -70,6 +79,7 @@ function App() {
             path="/posts/:id"
             element={<PrivateRoute component={Post} />}
           />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </Router>
     </Provider>
